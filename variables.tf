@@ -8,7 +8,7 @@
 # ---------------
 
 variable "firewalls" {
-  description = "The list of firewall objects to be managed. Each firewall object supports the following parameters: 'name' (string, required), 'rules' (list of rule objects, optional), 'labels' (map of KV pairs, optional). Each rule object supports the following parameters: 'direction' (string, required), 'protocol' (string, required), 'port' (string, required for TCP/UDP), 'remote_ips' (string, required)."
+  description = "The list of firewall objects to be managed. Each firewall object supports the following parameters: 'name' (string, required), 'rules' (list of rule objects, optional), 'labels' (map of KV pairs, optional). Each rule object supports the following parameters: 'direction' (string, required), 'protocol' (string, required), 'port' (string, required for TCP/UDP), 'remote_ips' (list of IP addresses, required)."
 
   type        = list(
     object({
@@ -31,8 +31,8 @@ variable "firewalls" {
       rules  = [
         {
           direction  = "in"
-          protocol   = "tcp"
-          port       = "22"
+          protocol   = "icmp"
+          port       = null
           remote_ips = [
             "0.0.0.0/0",
             "::/0"
@@ -40,8 +40,8 @@ variable "firewalls" {
         },
         {
           direction  = "in"
-          protocol   = "icmp"
-          port       = null
+          protocol   = "tcp"
+          port       = "22"
           remote_ips = [
             "0.0.0.0/0",
             "::/0"
