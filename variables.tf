@@ -8,17 +8,18 @@
 # ---------------
 
 variable "firewalls" {
-  description = "The list of firewall objects to be managed. Each firewall object supports the following parameters: 'name' (string, required), 'rules' (list of rule objects, optional), 'labels' (map of KV pairs, optional). Each rule object supports the following parameters: 'direction' (string, required), 'protocol' (string, required), 'port' (string, required for TCP/UDP), 'remote_ips' (list of IP addresses, required)."
+  description = "The list of firewall objects to be managed. Each firewall object supports the following parameters: 'name' (string, required), 'rules' (list of rule objects, optional), 'labels' (map of KV pairs, optional). Each rule object supports the following parameters: 'direction' (string, required), 'protocol' (string, required), 'port' (string, required for TCP/UDP), 'remote_ips' (list of IP addresses, required), 'description' (string, optional)."
 
   type        = list(
     object({
       name   = string
       rules  = list(
         object({
-          direction  = string
-          protocol   = string
-          port       = string
-          remote_ips = list(string)
+          direction   = string
+          protocol    = string
+          port        = string
+          remote_ips  = list(string)
+          description = string
         })
       )
       labels = map(string)
@@ -30,22 +31,24 @@ variable "firewalls" {
       name   = "firewall-1"
       rules  = [
         {
-          direction  = "in"
-          protocol   = "icmp"
-          port       = null
-          remote_ips = [
+          direction   = "in"
+          protocol    = "icmp"
+          port        = null
+          remote_ips  = [
             "0.0.0.0/0",
             "::/0"
           ]
+          description = "allow ICMP in"
         },
         {
-          direction  = "in"
-          protocol   = "tcp"
-          port       = "22"
-          remote_ips = [
+          direction   = "in"
+          protocol    = "tcp"
+          port        = "22"
+          remote_ips  = [
             "0.0.0.0/0",
             "::/0"
           ]
+          description = "allow SSH in"
         }
       ]
       labels = {}

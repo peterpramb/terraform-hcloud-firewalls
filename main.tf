@@ -37,6 +37,7 @@ resource "hcloud_firewall" "firewalls" {
                          rule.value["remote_ips"] : null)
       destination_ips = (rule.value["direction"] == "out" ?
                          rule.value["remote_ips"] : null)
+      description     = rule.value["description"]
     }
   }
 

@@ -23,67 +23,74 @@ module "firewall" {
       name   = "mailserver"
       rules  = [
         {
-          direction  = "in"
-          protocol   = "icmp"
-          port       = null
-          remote_ips = [
+          direction   = "in"
+          protocol    = "icmp"
+          port        = null
+          remote_ips  = [
             "0.0.0.0/0",
             "::/0"
           ]
+          description = "allow ICMP in"
         },
         {
-          direction  = "in"
-          protocol   = "tcp"
-          port       = "25"
-          remote_ips = [
+          direction   = "in"
+          protocol    = "tcp"
+          port        = "25"
+          remote_ips  = [
             "0.0.0.0/0",
             "::/0"
           ]
+          description = "allow SMTP in"
         },
         {
-          direction  = "in"
-          protocol   = "tcp"
-          port       = "143"
-          remote_ips = [
+          direction   = "in"
+          protocol    = "tcp"
+          port        = "143"
+          remote_ips  = [
             "0.0.0.0/0",
             "::/0"
           ]
+          description = "allow IMAP in"
         },
         {
-          direction  = "out"
-          protocol   = "icmp"
-          port       = null
-          remote_ips = [
+          direction   = "out"
+          protocol    = "icmp"
+          port        = null
+          remote_ips  = [
             "0.0.0.0/0",
             "::/0"
           ]
+          description = "allow ICMP out"
         },
         {
-          direction  = "out"
-          protocol   = "tcp"
-          port       = "25"
-          remote_ips = [
+          direction   = "out"
+          protocol    = "tcp"
+          port        = "25"
+          remote_ips  = [
             "0.0.0.0/0",
             "::/0"
           ]
+          description = "allow SMTP out"
         },
         {
-          direction  = "out"
-          protocol   = "tcp"
-          port       = "53"
-          remote_ips = [
+          direction   = "out"
+          protocol    = "tcp"
+          port        = "53"
+          remote_ips  = [
             "0.0.0.0/0",
             "::/0"
           ]
+          description = "allow DNS out"
         },
         {
-          direction  = "out"
-          protocol   = "udp"
-          port       = "53"
-          remote_ips = [
+          direction   = "out"
+          protocol    = "udp"
+          port        = "53"
+          remote_ips  = [
             "0.0.0.0/0",
             "::/0"
           ]
+          description = "allow DNS out"
         }
       ]
       labels = {
@@ -134,6 +141,7 @@ module "firewall" {
 | [protocol](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/firewall#protocol) | Protocol to match with this firewall rule. | string | yes |
 | [port](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/firewall#port) | Port(range) to match with this firewall rule. | string | yes (TCP/UDP only) |
 | [remote\_ips](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/firewall#source_ips) | List of remote IPs to match with this firewall rule. | list(string) | yes |
+| [description](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/firewall#description) | Description of this firewall rule. | string | no |
 
 
 ### Defaults
@@ -144,22 +152,24 @@ firewalls = [
     name   = "firewall-1"
     rules  = [
       {
-        direction  = "in"
-        protocol   = "icmp"
-        port       = null
-        remote_ips = [
+        direction   = "in"
+        protocol    = "icmp"
+        port        = null
+        remote_ips  = [
           "0.0.0.0/0",
           "::/0"
         ]
+        description = "allow ICMP in"
       },
       {
-        direction  = "in"
-        protocol   = "tcp"
-        port       = "22"
-        remote_ips = [
+        direction   = "in"
+        protocol    = "tcp"
+        port        = "22"
+        remote_ips  = [
           "0.0.0.0/0",
           "::/0"
         ]
+        description = "allow SSH in"
       }
     ]
     labels = {}
@@ -186,6 +196,7 @@ firewalls = [
     "name" = "firewall-1"
     "rule" = [
       {
+        "description" = "allow ICMP in"
         "destination_ips" = []
         "direction" = "in"
         "port" = ""
@@ -196,6 +207,7 @@ firewalls = [
         ]
       },
       {
+        "description" = "allow SSH in"
         "destination_ips" = []
         "direction" = "in"
         "port" = "22"
@@ -215,6 +227,7 @@ firewall_ids = {
     "name" = "firewall-1"
     "rule" = [
       {
+        "description" = "allow ICMP in"
         "destination_ips" = []
         "direction" = "in"
         "port" = ""
@@ -225,6 +238,7 @@ firewall_ids = {
         ]
       },
       {
+        "description" = "allow SSH in"
         "destination_ips" = []
         "direction" = "in"
         "port" = "22"
@@ -244,6 +258,7 @@ firewall_names = {
     "name" = "firewall-1"
     "rule" = [
       {
+        "description" = "allow ICMP in"
         "destination_ips" = []
         "direction" = "in"
         "port" = ""
@@ -254,6 +269,7 @@ firewall_names = {
         ]
       },
       {
+        "description" = "allow SSH in"
         "destination_ips" = []
         "direction" = "in"
         "port" = "22"
