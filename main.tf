@@ -12,6 +12,14 @@ locals {
   firewalls = {
     for firewall in var.firewalls : firewall.name => firewall
   }
+
+  # Build a map of all provided firewall objects to be attached, indexed
+  # by firewall name:
+  attachments = {
+    for firewall in var.firewalls : firewall.name => merge(firewall, {
+      "firewall" = firewall.name
+    }) if(try(firewall.server, null) != null)
+  }
 }
 
 
@@ -42,4 +50,17 @@ resource "hcloud_firewall" "firewalls" {
   }
 
   labels   = each.value.labels
+}
+
+
+# --------------------
+# Firewall Attachments
+# --------------------
+
+resource "hcloud_firewall_attachment" "attachments" {
+  for_each        = local.attachments
+
+  firewall_id     = hcloud_firewall.firewalls[each.value.name].id
+  label_selectors = each.value.server.labels
+  server_ids      = each.value.server.ids
 }

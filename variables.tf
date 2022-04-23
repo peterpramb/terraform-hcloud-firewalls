@@ -8,7 +8,7 @@
 # ---------------
 
 variable "firewalls" {
-  description = "The list of firewall objects to be managed. Each firewall object supports the following parameters: 'name' (string, required), 'rules' (list of rule objects, optional), 'labels' (map of KV pairs, optional). Each rule object supports the following parameters: 'direction' (string, required), 'protocol' (string, required), 'port' (string, required for TCP/UDP), 'remote_ips' (list of IP addresses, required), 'description' (string, optional)."
+  description = "The list of firewall objects to be managed. Each firewall object supports the following parameters: 'name' (string, required), 'rules' (list of rule objects, optional), 'server' (server object, optional), 'labels' (map of KV pairs, optional). Each rule object supports the following parameters: 'direction' (string, required), 'protocol' (string, required), 'port' (string, required for TCP/UDP), 'remote_ips' (list of IP addresses, required), 'description' (string, optional). The server object supports the following parameters: 'ids' (list of server IDs, optional), 'labels' (list of label selectors, optional)."
 
   type        = list(
     object({
@@ -22,6 +22,10 @@ variable "firewalls" {
           description = string
         })
       )
+      server = object({
+        ids    = list(string)
+        labels = list(string)
+      })
       labels = map(string)
     })
   )
@@ -51,6 +55,7 @@ variable "firewalls" {
           description = "allow SSH in"
         }
       ]
+      server = null
       labels = {}
     }
   ]

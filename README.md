@@ -10,6 +10,7 @@
 It implements the following [provider](#providers) resources:
 
 - [hcloud\_firewall](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/firewall)
+- [hcloud\_firewall\_attachment](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/firewall_attachment)
 
 
 ## Usage
@@ -93,6 +94,12 @@ module "firewall" {
           description = "allow DNS out"
         }
       ]
+      server = {
+        ids    = []
+        labels = [
+          "server_role=mail"
+        ]
+      }
       labels = {
         "managed"    = "true"
         "managed_by" = "Terraform"
@@ -114,7 +121,7 @@ module "firewall" {
 
 | Name | Version |
 |------|---------|
-| [hcloud](https://registry.terraform.io/providers/hetznercloud/hcloud) | &ge; 1.28 |
+| [hcloud](https://registry.terraform.io/providers/hetznercloud/hcloud) | &ge; 1.33 |
 
 
 ## Inputs
@@ -130,6 +137,7 @@ module "firewall" {
 |------|-------------|:----:|:--------:|
 | [name](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/firewall#name) | Unique name of the firewall. | string | yes |
 | rules | List of firewall rule objects. | list(map([*rule*](#rule))) | no |
+| server | Inputs for server attachment. | map([*server*](#server)) | no |
 | [labels](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/firewall#labels) | Map of user-defined labels. | map(string) | no |
 
 
@@ -142,6 +150,14 @@ module "firewall" {
 | [port](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/firewall#port) | Port(range) to match with this firewall rule. | string | yes (TCP/UDP only) |
 | [remote\_ips](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/firewall#source_ips) | List of remote IPs to match with this firewall rule. | list(string) | yes |
 | [description](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/firewall#description) | Description of this firewall rule. | string | no |
+
+
+#### *server*
+
+| Name | Description | Type | Required |
+|------|-------------|:----:|:--------:|
+| [ids](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/firewall_attachment#server_ids) | IDs of the servers to attach the firewall to. | list(string) | no |
+| [labels](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/firewall_attachment#label_selectors) | Labels of the servers to attach the firewall to. | list(string) | no |
 
 
 ### Defaults
@@ -172,6 +188,7 @@ firewalls = [
         description = "allow SSH in"
       }
     ]
+    server = null
     labels = {}
   }
 ]
@@ -185,6 +202,9 @@ firewalls = [
 | firewalls | List of all firewall objects. |
 | firewall\_ids | Map of all firewall objects indexed by ID. |
 | firewall\_names | Map of all firewall objects indexed by name. |
+| firewall\_attachments | List of all firewall attachment objects. |
+| firewall\_attachment\_ids | Map of all firewall attachment objects indexed by ID. |
+| firewall\_attachment\_names | Map of all firewall attachment objects indexed by name. |
 
 
 ### Defaults
@@ -192,6 +212,7 @@ firewalls = [
 ```terraform
 firewalls = [
   {
+    "attachment" = {}
     "id" = "49002"
     "name" = "firewall-1"
     "rule" = [
@@ -223,6 +244,7 @@ firewalls = [
 
 firewall_ids = {
   "49002" = {
+    "attachment" = {}
     "id" = "49002"
     "name" = "firewall-1"
     "rule" = [
@@ -254,6 +276,7 @@ firewall_ids = {
 
 firewall_names = {
   "firewall-1" = {
+    "attachment" = {}
     "id" = "49002"
     "name" = "firewall-1"
     "rule" = [
@@ -282,6 +305,12 @@ firewall_names = {
     ]
   }
 }
+
+firewall_attachments = []
+
+firewall_attachment_ids = {}
+
+firewall_attachment_names = {}
 ```
 
 
