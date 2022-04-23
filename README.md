@@ -214,6 +214,7 @@ firewalls = [
   {
     "attachment" = {}
     "id" = "49002"
+    "labels" = {}
     "name" = "firewall-1"
     "rule" = [
       {
@@ -246,6 +247,7 @@ firewall_ids = {
   "49002" = {
     "attachment" = {}
     "id" = "49002"
+    "labels" = {}
     "name" = "firewall-1"
     "rule" = [
       {
@@ -278,6 +280,7 @@ firewall_names = {
   "firewall-1" = {
     "attachment" = {}
     "id" = "49002"
+    "labels" = {}
     "name" = "firewall-1"
     "rule" = [
       {
